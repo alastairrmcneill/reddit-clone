@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:reddit_clone/model/community_model.dart';
 import 'package:reddit_clone/model/user_model.dart';
 
