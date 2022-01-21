@@ -41,7 +41,9 @@ class CustomRightDrawer extends StatelessWidget {
                 SizedBox(
                   width: 180,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
                     child: Text('Create Avatar'),
                     style: ButtonStyle(
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(

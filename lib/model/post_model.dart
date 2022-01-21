@@ -45,4 +45,13 @@ I have sent him back the £2500, my girlfriends parents have said they will give
     likes: 232,
     comments: 10,
   ),
+  Post(
+    community: Community(iconURL: 'assets/images/communities/life_pro_tips.png', name: 'r/LifeProTips'),
+    user: User(iconURL: 'assets/images/users/alastair.png', username: 'u/brbarretydfr'),
+    timestamp: DateTime(2022, 1, 21, 10, 3),
+    title:
+        'LPT: Do chores when you feel angry. Keep to yourself and wash dishes, gardening, sweeping the floor, etc. Use all that adrenaline towards something that will benefit you instead of doing impulsive stuff.',
+    likes: 23436,
+    comments: 555,
+  ),
 ];
