@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:reddit_clone/model/post_model.dart';
 import 'package:reddit_clone/model/user_model.dart';
 import 'package:reddit_clone/widgets/widgets.dart';
 
@@ -39,6 +40,13 @@ class _HomeScreenState extends State<HomeScreen> {
       bottomNavigationBar: CustomBottomNavBar(),
       drawer: CustomLeftDrawer(),
       endDrawer: CustomRightDrawer(),
+      body: ListView(
+        children: [
+          ...(posts).map((post) {
+            return PostTile(post: post);
+          }).toList(),
+        ],
+      ),
     );
   }
 }
