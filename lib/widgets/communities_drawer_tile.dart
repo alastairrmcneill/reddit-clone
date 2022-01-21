@@ -10,22 +10,35 @@ class CommunitiesDrawerTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 12),
-      child: Row(
-        children: [
-          Row(
-            children: [
-              CircleAvatar(
-                backgroundImage: AssetImage(community.iconURL),
-              ),
-              Text(
-                community.name,
-                style: TextStyle(
-                  color: Colors.white,
+      child: GestureDetector(
+        onTap: () {
+          Navigator.of(context).pop();
+        },
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              children: [
+                CircleAvatar(
+                  backgroundImage: AssetImage(community.iconURL),
+                  radius: 12,
                 ),
-              ),
-            ],
-          ),
-        ],
+                SizedBox(width: 15),
+                Text(
+                  community.name,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+              ],
+            ),
+            Icon(
+              Icons.star_border_rounded,
+              color: Colors.grey[500],
+            )
+          ],
+        ),
       ),
     );
   }
