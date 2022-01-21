@@ -32,7 +32,7 @@ class CustomRightDrawer extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(vertical: 15.0),
                   child: Text(
                     currentUser.username,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.white,
                       fontSize: 24,
                     ),
