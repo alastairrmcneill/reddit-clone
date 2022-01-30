@@ -1,6 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:reddit_clone/model/post_model.dart';
 import 'package:reddit_clone/model/user_model.dart';
+import 'package:reddit_clone/services/database_service.dart';
 import 'package:reddit_clone/widgets/widgets.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -40,12 +42,27 @@ class _HomeScreenState extends State<HomeScreen> {
       bottomNavigationBar: CustomBottomNavBar(),
       drawer: CustomLeftDrawer(),
       endDrawer: CustomRightDrawer(),
-      body: ListView(
-        children: [
-          ...(posts).map((post) {
-            return PostTile(post: post);
-          }).toList(),
-        ],
+      body: StreamBuilder(
+        stream: PostsDatabase.readAllPosts(),
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          return ListView.builder(
+            itemCount: snapshot.data!.docs.length,
+            itemBuilder: (context, index) {
+              String title = snapshot.data!.docs[index]['title'] as String;
+              return Text(
+                title,
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              );
+            },
+          );
+        },
       ),
     );
   }
