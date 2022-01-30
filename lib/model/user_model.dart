@@ -10,6 +10,18 @@ class User {
     required this.username,
     this.communities = const [],
   });
+
+  static User fromJSON(Map<String, Object?> json) {
+    String iconURL = json['iconURL'] as String;
+    String username = json['username'] as String;
+    List<Community> communities = [];
+
+    return User(
+      iconURL: iconURL,
+      username: username,
+      communities: communities,
+    );
+  }
 }
 
 User currentUser = User(

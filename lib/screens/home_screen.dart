@@ -53,13 +53,9 @@ class _HomeScreenState extends State<HomeScreen> {
           return ListView.builder(
             itemCount: snapshot.data!.docs.length,
             itemBuilder: (context, index) {
-              String title = snapshot.data!.docs[index]['title'] as String;
-              return Text(
-                title,
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-              );
+              Map<String, dynamic> data = snapshot.data!.docs[index].data() as Map<String, dynamic>;
+              Post post = Post.fromJSON(data);
+              return PostTile(post: post);
             },
           );
         },
