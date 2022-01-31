@@ -16,6 +16,10 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: FirebaseApi.listAll,
+        child: Icon(Icons.read_more),
+      ),
       appBar: AppBar(
         shape: const Border(
           bottom: BorderSide(
@@ -42,22 +46,22 @@ class _HomeScreenState extends State<HomeScreen> {
       bottomNavigationBar: CustomBottomNavBar(),
       drawer: CustomLeftDrawer(),
       endDrawer: CustomRightDrawer(),
-      body: StreamBuilder(
-        stream: PostsDatabase.readAllPosts(),
-        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
+      body: StreamBuilder<List<Post>>(
+        stream: PostsDatabase.getData(),
+        builder: (BuildContext context, AsyncSnapshot<List<Post>> postsSnapshot) {
+          if (postsSnapshot.hasError) {
+            return Text('Error: ${postsSnapshot.error}');
           }
-          return ListView.builder(
-            itemCount: snapshot.data!.docs.length,
-            itemBuilder: (context, index) {
-              Map<String, dynamic> data = snapshot.data!.docs[index].data() as Map<String, dynamic>;
-              Post post = Post.fromJSON(data);
-              return PostTile(post: post);
-            },
-          );
+          switch (postsSnapshot.connectionState) {
+            case ConnectionState.waiting:
+              return const Text("Loading...");
+            default:
+              return ListView(
+                children: postsSnapshot.data!.map((Post post) {
+                  return PostTile(post: post);
+                }).toList(),
+              );
+          }
         },
       ),
     );

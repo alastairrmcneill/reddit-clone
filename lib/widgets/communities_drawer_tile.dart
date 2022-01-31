@@ -20,12 +20,12 @@ class CommunitiesDrawerTile extends StatelessWidget {
             Row(
               children: [
                 CircleAvatar(
-                  backgroundImage: AssetImage(community.iconURL),
+                  backgroundImage: NetworkImage(community.iconURL),
                   radius: 12,
                 ),
                 SizedBox(width: 15),
                 Text(
-                  community.name,
+                  'r/${community.name}',
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.w400,

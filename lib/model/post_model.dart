@@ -24,6 +24,26 @@ class Post {
     required this.comments,
   });
 
+  static Future<Post?> fromDocument(DocumentSnapshot doc) async {
+    final data = doc.data() as Map;
+    final communityID = data['communityID'] as String;
+    final userID = data['userID'] as String;
+    final timeStamp = data['timeStamp'] as Timestamp;
+    final communityDoc = await FirebaseFirestore.instance.collection('Posts').doc(communityID).get();
+    final userDoc = await FirebaseFirestore.instance.collection('Users').doc(userID).get();
+
+    if (communityDoc.exists && userDoc.exists) {
+      return Post(
+        community: Community.fromDocument(communityDoc),
+        user: User.fromDocument(userDoc),
+        timestamp: timeStamp.toDate(),
+        title: data['title'] as String,
+        likes: data['likes'] as int,
+        comments: data['comments'] as int,
+      );
+    }
+  }
+
   static Post fromJSON(Map<String, Object?> json) {
     final timeStamp = json['timeStamp'] as Timestamp;
 

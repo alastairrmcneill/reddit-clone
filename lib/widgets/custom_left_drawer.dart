@@ -1,5 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:reddit_clone/model/community_model.dart';
 import 'package:reddit_clone/model/user_model.dart';
+import 'package:reddit_clone/services/database_service.dart';
 import 'widgets.dart';
 
 class CustomLeftDrawer extends StatelessWidget {
@@ -55,9 +58,25 @@ class CustomLeftDrawer extends StatelessWidget {
                     ],
                   ),
                 ),
-                ...(currentUser.communities).map((community) {
-                  return CommunitiesDrawerTile(community: community);
-                }).toList()
+                StreamBuilder(
+                  stream: CommunitiesDatabase.readAllCommunities(),
+                  builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                    if (!snapshot.hasData) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+                    return Column(
+                      children: snapshot.data!.docs.map(
+                        (DocumentSnapshot document) {
+                          Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
+                          Community community = Community.fromJSON(data);
+                          return CommunitiesDrawerTile(community: community);
+                        },
+                      ).toList(),
+                    );
+                  },
+                ),
               ],
             ),
           ),

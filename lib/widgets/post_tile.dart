@@ -24,7 +24,7 @@ class PostTile extends StatelessWidget {
     {
       return Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0),
-        child: Image.asset(post.imageURL),
+        child: Image.network(post.imageURL),
       );
     }
   }
@@ -49,7 +49,7 @@ class PostTile extends StatelessWidget {
                   Row(
                     children: [
                       CircleAvatar(
-                        backgroundImage: AssetImage(post.community.iconURL),
+                        backgroundImage: NetworkImage(post.community.iconURL),
                       ),
                       const SizedBox(width: 15),
                       Column(

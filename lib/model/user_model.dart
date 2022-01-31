@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:reddit_clone/model/community_model.dart';
 
 class User {
@@ -11,6 +12,14 @@ class User {
     this.communities = const [],
   });
 
+  factory User.fromDocument(DocumentSnapshot doc) {
+    final data = doc.data() as Map;
+    return User(
+      iconURL: data['iconURL'] as String,
+      username: data['username'] as String,
+    );
+  }
+
   static User fromJSON(Map<String, Object?> json) {
     String iconURL = json['iconURL'] as String;
     String username = json['username'] as String;
@@ -20,6 +29,21 @@ class User {
       iconURL: iconURL,
       username: username,
       communities: communities,
+    );
+  }
+
+  static User fromSnapshot(DocumentSnapshot snapshot) {
+    if (snapshot.exists) {
+      Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
+
+      return User(
+        iconURL: data['iconURL'],
+        username: data['username'],
+      );
+    }
+    return User(
+      iconURL: 'assets/images/users/alastair.png',
+      username: 'u/alimcneill',
     );
   }
 }

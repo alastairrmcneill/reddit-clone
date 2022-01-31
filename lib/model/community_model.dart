@@ -10,19 +10,33 @@ class Community {
     required this.name,
   });
 
-  static Future<Community> fromJSON(String communityID) async {
-    DocumentSnapshot<Map<String, Object?>> communityData = await PostsDatabase.readCommunity(communityID);
+  factory Community.fromDocument(DocumentSnapshot doc) {
+    final data = doc.data() as Map;
+    return Community(
+      iconURL: data['iconURL'] as String,
+      name: data['name'] as String,
+    );
+  }
 
-    if (communityData.exists) {
-      Map<String, dynamic>? data = communityData.data()!;
+  static Community fromJSON(Map<String, dynamic> json) {
+    return Community(
+      iconURL: json['iconURL'] as String,
+      name: json['name'] as String,
+    );
+  }
+
+  static Community fromSnapshot(DocumentSnapshot snapshot) {
+    if (snapshot.exists) {
+      Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
+
       return Community(
-        iconURL: data['iconURL'] as String,
-        name: data['name'] as String,
+        iconURL: data['iconURL'],
+        name: data['name'],
       );
     }
     return Community(
-      iconURL: 'assets/images/communities/assetto_corsa.jpeg',
-      name: 'r/assettocorsa',
+      iconURL: 'assets/images/users/alastair.png',
+      name: 'u/alimcneill',
     );
   }
 }
