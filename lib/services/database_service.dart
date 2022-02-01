@@ -18,6 +18,7 @@ class PostsDatabase {
     List<Post> posts = [];
 
     await for (var postSnapshot in postsStream) {
+      posts.clear();
       for (var postDoc in postSnapshot.docs) {
         var post;
         if (postDoc["userID"] != null) {
